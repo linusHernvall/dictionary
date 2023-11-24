@@ -1,7 +1,17 @@
-import './App.css';
+import { DictionarySearch } from './components/DictionaryResult';
 
 function App() {
-  return;
+  return (
+    <div
+      style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <DictionarySearch />
+    </div>
+  );
 }
 
 export default App;
