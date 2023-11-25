@@ -10,10 +10,21 @@ interface PhoneticInfo {
   };
 }
 
+interface Meaning {
+  partOfSpeech: string;
+  definitions: {
+    definition: string;
+    synonyms: string[];
+    antonyms: string[];
+    example?: string;
+  }[];
+}
+
 interface DictionaryResult {
   word: string;
   phonetic: string;
   phonetics: PhoneticInfo[];
+  meanings: Meaning[];
 }
 
 export const DictionarySearch: React.FC = () => {
@@ -24,6 +35,7 @@ export const DictionarySearch: React.FC = () => {
 
   const handleSearch = async () => {
     setIsLoading(true);
+    setSearchResults([]);
     setError(null);
 
     try {
@@ -33,8 +45,39 @@ export const DictionarySearch: React.FC = () => {
       if (!response.ok) {
         throw new Error('Error fetching data');
       }
-      const data = await response.json();
-      setSearchResults(data);
+      const data: DictionaryResult[] = await response.json();
+
+      if (data.length > 0) {
+        const firstResult = data[0];
+
+        const audioPhonetic = firstResult.phonetics.find(
+          (phonetic) => phonetic.audio !== ''
+        );
+
+        const updatedMeanings = firstResult.meanings.map((meaning) => {
+          const firstDefinition = meaning.definitions[0];
+          return {
+            partOfSpeech: meaning.partOfSpeech,
+            definitions: [
+              {
+                definition: firstDefinition.definition,
+                synonyms: firstDefinition.synonyms,
+                antonyms: firstDefinition.antonyms,
+                example: firstDefinition.example,
+              },
+            ],
+          };
+        });
+
+        const updatedResult: DictionaryResult = {
+          word: firstResult.word,
+          phonetic: firstResult.phonetic,
+          phonetics: audioPhonetic ? [audioPhonetic] : [],
+          meanings: updatedMeanings,
+        };
+
+        setSearchResults([updatedResult]);
+      }
     } catch (err) {
       setError('Failed to fetch data');
     } finally {
@@ -63,42 +106,48 @@ export const DictionarySearch: React.FC = () => {
       <div>
         {searchResults.map((result, index) => (
           <div key={index}>
-            <h3>{result.word}</h3>
+            <h1>{result.word}</h1>
             <p>Phonetic: {result.phonetic}</p>
-            <div>
-              {result.phonetics.map((phonetic, phoneticIndex) => (
-                <div key={phoneticIndex}>
-                  <p>{phonetic.text}</p>
-                  {phonetic.audio && (
-                    <audio controls>
-                      <source src={phonetic.audio} type="audio/mpeg" />
-                      Your browser does not support the audio element.
-                    </audio>
-                  )}
-                  {phonetic.sourceUrl && (
+            {result.phonetics.length > 0 && (
+              <div>
+                <p>{result.phonetics[0].text}</p>
+                {result.phonetics[0].audio && (
+                  <audio controls>
+                    <source src={result.phonetics[0].audio} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                  </audio>
+                )}
+                {result.phonetics[0].license?.name && (
+                  <p>
+                    License:
                     <a
-                      href={phonetic.sourceUrl}
+                      href={result.phonetics[0].license?.url}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Source
+                      {result.phonetics[0].license.name}
                     </a>
-                  )}
-                  {phonetic.license?.name && (
-                    <p>
-                      License:
-                      <a
-                        href={phonetic.license?.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {phonetic.license.name}
-                      </a>
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
+                  </p>
+                )}
+              </div>
+            )}
+            {result.meanings.map((meaning, meaningIndex) => (
+              <div key={meaningIndex}>
+                <p>Part of Speech: {meaning.partOfSpeech}</p>
+                {meaning.definitions.map((def, defIndex) => (
+                  <div key={defIndex}>
+                    <p>Definition: {def.definition}</p>
+                    {def.synonyms && def.synonyms.length > 0 && (
+                      <p>Synonyms: {def.synonyms.join(', ')}</p>
+                    )}
+                    {def.antonyms && def.antonyms.length > 0 && (
+                      <p>Antonyms: {def.antonyms.join(', ')}</p>
+                    )}
+                    {def.example && <p>Example: {def.example}</p>}
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
         ))}
       </div>
