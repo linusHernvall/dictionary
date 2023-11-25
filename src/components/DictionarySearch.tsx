@@ -104,20 +104,34 @@ export const DictionarySearch: React.FC = () => {
         <h1>{result.word}</h1>
         {result.phonetics.length > 0 && (
           <div>
-            <p>Phonetic: {result.phonetics[0].text}</p>
+            <h3>Phonetic</h3>
+            <p>{result.phonetics[0].text}</p>
           </div>
         )}
-        <p>Part of Speech: {firstMeaning.partOfSpeech}</p>
+        <h3>Part of Speech</h3>
+
+        <p>{firstMeaning.partOfSpeech}</p>
+
         {firstMeaning.definitions.map((def, defIndex) => (
           <div key={defIndex}>
-            <p>Definition: {def.definition}</p>
+            <h3>Definition</h3>
+            <p>{def.definition}</p>
+
             {def.synonyms && def.synonyms.length > 0 && (
-              <p>Synonyms: {def.synonyms.join(', ')}</p>
+              <>
+                <h3>Synonyms</h3>
+                <p>{def.synonyms.join(', ')}</p>
+              </>
             )}
             {def.antonyms && def.antonyms.length > 0 && (
-              <p>Antonyms: {def.antonyms.join(', ')}</p>
+              <>
+                <h3>Antonyms</h3>
+                <p>{def.antonyms.join(', ')}</p>
+              </>
             )}
-            {def.example && <p>Example: {def.example}</p>}
+            {def.example && <h3>Example</h3>}
+
+            <p>{def.example}</p>
           </div>
         ))}
       </div>
@@ -133,17 +147,27 @@ export const DictionarySearch: React.FC = () => {
 
     return (
       <div>
-        <p>Part of Speech: {secondMeaning.partOfSpeech}</p>
+        <h3>Part of Speech</h3>
+        <p>{secondMeaning.partOfSpeech}</p>
         {secondMeaning.definitions.map((def, defIndex) => (
           <div key={defIndex}>
-            <p>Definition: {def.definition}</p>
+            <h3>Definition</h3>
+            <p>{def.definition}</p>
             {def.synonyms && def.synonyms.length > 0 && (
-              <p>Synonyms: {def.synonyms.join(', ')}</p>
+              <>
+                <h3>Synonyms</h3>
+                <p>{def.synonyms.join(', ')}</p>
+              </>
             )}
             {def.antonyms && def.antonyms.length > 0 && (
-              <p>Antonyms: {def.antonyms.join(', ')}</p>
+              <>
+                <h3>Antonyms</h3>
+                <p>{def.antonyms.join(', ')}</p>
+              </>
             )}
-            {def.example && <p>Example: {def.example}</p>}
+            {def.example && <h3>Example</h3>}
+
+            <p>{def.example}</p>
           </div>
         ))}
         {result.phonetics.length > 0 && (
