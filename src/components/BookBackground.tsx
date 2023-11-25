@@ -6,7 +6,7 @@ interface BookBackgroundProps {
   rightPageContent: React.ReactNode;
 }
 
-const BookBackground: React.FC<BookBackgroundProps> = ({
+export const BookBackground: React.FC<BookBackgroundProps> = ({
   leftPageContent,
   rightPageContent,
 }) => {
@@ -49,5 +49,3 @@ const BookBackground: React.FC<BookBackgroundProps> = ({
     </div>
   );
 };
-
-export default BookBackground;

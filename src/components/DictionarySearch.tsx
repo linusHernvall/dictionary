@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BookBackground from './BookBackground';
+import { BookBackground } from './BookBackground';
 
 interface PhoneticInfo {
   text: string;
@@ -191,25 +191,44 @@ export const DictionarySearch: React.FC = () => {
           width: '100%',
           display: 'flex',
           justifyContent: 'center',
+          flexDirection: 'column',
         }}
       >
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="Search for a word"
-        />
-        <button onClick={handleSearch}>Search</button>
+        <h1
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          Dictionary
+        </h1>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Search for a word"
+          />
+          <button onClick={handleSearch}>Search</button>
+        </div>
       </div>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      {searchResults.length > 0 && (
-        <BookBackground
-          leftPageContent={renderLeftPageContent()}
-          rightPageContent={renderRightPageContent()}
-        />
-      )}
+      <div
+        style={{ height: '30px', display: 'flex', justifyContent: 'center' }}
+      >
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
+      </div>
+
+      <BookBackground
+        leftPageContent={renderLeftPageContent()}
+        rightPageContent={renderRightPageContent()}
+      />
     </div>
   );
 };

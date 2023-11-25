@@ -10,7 +10,6 @@ function App() {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        border: '1px solid salmon',
       }}
     >
       <DictionarySearch />
