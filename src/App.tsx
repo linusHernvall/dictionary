@@ -1,4 +1,4 @@
-import { DictionarySearch } from './components/DictionarySearch';
+import { DictionaryResult } from './components/DictionaryResult';
 
 function App() {
   return (
@@ -8,11 +8,9 @@ function App() {
         height: '100vh',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
       }}
     >
-      <DictionarySearch />
+      <DictionaryResult />
     </div>
   );
 }
