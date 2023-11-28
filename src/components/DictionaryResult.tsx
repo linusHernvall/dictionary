@@ -87,17 +87,44 @@ export const DictionaryResult = () => {
 
   return (
     <div>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyPress={handleKeyPress}
-        placeholder="Search for a word"
-      />
-      <button onClick={handleSearch}>Search</button>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      <div>
+      <div
+        style={{
+          position: 'absolute',
+          top: '5%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '100%',
+          textAlign: 'center',
+        }}
+      >
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyPress={handleKeyPress}
+          placeholder="Search for a word"
+        />
+        <button onClick={handleSearch}>Search</button>
+        {/* {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>} */}
+      </div>
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '600px',
+          maxWidth: '100%',
+          height: '500px',
+          overflow: 'scroll',
+          padding: ' 0 36px 36px',
+          borderRadius: '10px',
+          background: 'rgba(30, 30, 30, 0.8)',
+        }}
+      >
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
         {searchResults.map((result, index) => (
           <div key={index}>
             <h3>{result.word}</h3>
