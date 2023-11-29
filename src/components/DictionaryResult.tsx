@@ -105,8 +105,6 @@ export const DictionaryResult = () => {
           placeholder="Search for a word"
         />
         <button onClick={handleSearch}>Search</button>
-        {/* {isLoading && <p>Loading...</p>}
-        {error && <p>{error}</p>} */}
       </div>
       <div
         style={{
