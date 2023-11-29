@@ -40,6 +40,7 @@ export const DictionaryResult = () => {
 
   const handleSearch = async () => {
     setIsLoading(true);
+    setSearchResults([]);
     setError(null);
 
     try {
