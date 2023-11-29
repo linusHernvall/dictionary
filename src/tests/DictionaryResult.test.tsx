@@ -36,7 +36,7 @@ describe('Loading- and error message', () => {
 });
 
 describe('Phonetics audio', () => {
-  test.only('the audio player is rendered', async () => {
+  test('the audio player is rendered', async () => {
     render(<DictionaryResult />);
 
     const searchWord = screen.getByPlaceholderText('Search for a word');

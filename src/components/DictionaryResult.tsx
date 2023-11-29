@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { SearchInput } from './SearchInput';
 
 interface PhoneticInfo {
   text: string;
@@ -38,7 +39,7 @@ export const DictionaryResult = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSearch = async () => {
+  const handleSearch = async (searchTerm: string) => {
     setIsLoading(true);
     setSearchResults([]);
     setError(null);
@@ -80,12 +81,6 @@ export const DictionaryResult = () => {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
   return (
     <div>
       <div
@@ -98,14 +93,11 @@ export const DictionaryResult = () => {
           textAlign: 'center',
         }}
       >
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="Search for a word"
+        <SearchInput
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          onSubmit={handleSearch}
         />
-        <button onClick={handleSearch}>Search</button>
       </div>
       <div
         style={{
