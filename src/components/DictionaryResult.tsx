@@ -13,13 +13,13 @@ interface PhoneticInfo {
 
 interface Definition {
   definition: string;
-  synonyms: string[];
-  antonyms: string[];
 }
 
 interface Meaning {
   partOfSpeech: string;
   definitions: Definition[];
+  synonyms: string[];
+  antonyms: string[];
 }
 
 interface DictionaryResult {
@@ -60,9 +60,9 @@ export const DictionaryResult = () => {
           partOfSpeech: meaning.partOfSpeech,
           definitions: meaning.definitions.slice(0, 5).map((def) => ({
             definition: def.definition,
-            synonyms: def.synonyms,
-            antonyms: def.antonyms,
           })),
+          synonyms: meaning.synonyms,
+          antonyms: meaning.antonyms,
         })),
         license: entry.license,
         sourceUrls: entry.sourceUrls,
@@ -116,12 +116,16 @@ export const DictionaryResult = () => {
       >
         {isLoading && <p>Loading...</p>}
         {error && <p>{error}</p>}
+
+        {/* Word */}
         {searchResults.map((result, index) => (
           <div key={index}>
-            <h3>{result.word}</h3>
+            <h1>{result.word}</h1>
+
+            {/*  Phonetics */}
             {result.phonetics.map((phonetic, phoneticIndex) => (
               <div key={phoneticIndex}>
-                <p>Phonetic Text: {phonetic.text}</p>
+                <h4>Phonetic Text: {phonetic.text}</h4>
                 {phonetic.audio && (
                   <audio controls>
                     <source src={phonetic.audio} type="audio/mpeg" />
@@ -131,26 +135,39 @@ export const DictionaryResult = () => {
               </div>
             ))}
 
+            {/* Meanings  */}
             {result.meanings.map((meaning, meaningIndex) => (
               <div key={meaningIndex}>
                 <h4>Part of Speech: {meaning.partOfSpeech}</h4>
                 {meaning.definitions.map((def, defIndex) => (
                   <div key={defIndex}>
-                    {def.definition && <p>Definition: {def.definition}</p>}
-                    {def.synonyms && def.synonyms.length > 0 && (
-                      <p>Synonyms: {def.synonyms.join(', ')}</p>
-                    )}
-                    {def.antonyms && def.antonyms.length > 0 && (
-                      <p>Antonyms: {def.antonyms.join(', ')}</p>
+                    {def.definition && (
+                      <p>
+                        <b>Definition: </b>
+                        {def.definition}
+                      </p>
                     )}
                   </div>
                 ))}
+                {meaning.synonyms && meaning.synonyms.length > 0 && (
+                  <p>
+                    <b>Synonyms: </b>
+                    {meaning.synonyms.join(', ')}
+                  </p>
+                )}
+                {meaning.antonyms && meaning.antonyms.length > 0 && (
+                  <p>
+                    <b>Antonyms: </b>
+                    {meaning.antonyms.join(', ')}
+                  </p>
+                )}
               </div>
             ))}
 
+            {/* License */}
             {result.license?.name && (
               <p>
-                License:
+                <b>License: </b>
                 <a
                   href={result.license?.url}
                   target="_blank"
@@ -161,7 +178,7 @@ export const DictionaryResult = () => {
               </p>
             )}
             <p>
-              Source URLs:
+              <b>Source URLs: </b>
               {result.sourceUrls.map((url, urlIndex) => (
                 <a
                   key={urlIndex}
