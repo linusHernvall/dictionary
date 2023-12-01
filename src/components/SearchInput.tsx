@@ -1,25 +1,25 @@
 interface SearchInput {
-  searchTerm: string;
-  setSearchTerm: (searchTerm: string) => void;
-  onSubmit: (searchTerm: string) => void;
+  searchWord: string;
+  setSearchWord: (searchWord: string) => void;
+  onSubmit: (searchWord: string) => void;
 }
 
 export const SearchInput = ({
-  searchTerm,
-  setSearchTerm,
+  searchWord,
+  setSearchWord,
   onSubmit,
 }: SearchInput) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit(searchTerm);
+    onSubmit(searchWord);
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        value={searchWord}
+        onChange={(e) => setSearchWord(e.target.value)}
         placeholder="Search for a word"
         style={{
           padding: '8px 12px',
@@ -34,7 +34,6 @@ export const SearchInput = ({
         style={{
           width: '80px',
           padding: '8px 12px',
-          //   height: '40px',
           borderRadius: '0 10px 10px 0',
           background: '#323F3F',
           fontFamily: 'inherit',

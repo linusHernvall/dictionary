@@ -6,7 +6,7 @@ import { SearchInput } from '../components/SearchInput';
 describe('SearchInput Component', () => {
   test('renders input and button', () => {
     render(
-      <SearchInput searchTerm="" setSearchTerm={() => {}} onSubmit={() => {}} />
+      <SearchInput searchWord="" setSearchWord={() => {}} onSubmit={() => {}} />
     );
 
     const input = screen.getByPlaceholderText('Search for a word');
@@ -17,11 +17,11 @@ describe('SearchInput Component', () => {
   });
 
   test('allows typing in the search input', async () => {
-    const setSearchTerm = vi.fn();
+    const setSearchWord = vi.fn();
     render(
       <SearchInput
-        searchTerm=""
-        setSearchTerm={setSearchTerm}
+        searchWord=""
+        setSearchWord={setSearchWord}
         onSubmit={() => {}}
       />
     );
@@ -29,16 +29,16 @@ describe('SearchInput Component', () => {
     const input = screen.getByPlaceholderText('Search for a word');
     await userEvent.type(input, 'hello');
 
-    expect(setSearchTerm).toHaveBeenCalledTimes(5);
+    expect(setSearchWord).toHaveBeenCalledTimes(5);
   });
 
   test('submits the form with the search term', async () => {
-    const searchTerm = 'hello';
+    const searchWord = 'hello';
     const onSubmit = vi.fn();
     render(
       <SearchInput
-        searchTerm={searchTerm}
-        setSearchTerm={() => {}}
+        searchWord={searchWord}
+        setSearchWord={() => {}}
         onSubmit={onSubmit}
       />
     );
@@ -46,6 +46,6 @@ describe('SearchInput Component', () => {
     const button = screen.getByText('Search');
     await userEvent.click(button);
 
-    expect(onSubmit).toHaveBeenCalledWith(searchTerm);
+    expect(onSubmit).toHaveBeenCalledWith(searchWord);
   });
 });

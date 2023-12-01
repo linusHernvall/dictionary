@@ -35,19 +35,19 @@ interface DictionaryResult {
 }
 
 export const DictionaryResult = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchWord, setSearchWord] = useState<string>('');
   const [searchResults, setSearchResults] = useState<DictionaryResult[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSearch = async (searchTerm: string) => {
+  const handleSearch = async (searchWord: string) => {
     setIsLoading(true);
     setSearchResults([]);
     setError(null);
 
     try {
       const response = await fetch(
-        `https://api.dictionaryapi.dev/api/v2/entries/en/${searchTerm}`
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${searchWord}`
       );
       if (!response.ok) {
         throw new Error('Word not found in the dictionary');
@@ -96,8 +96,8 @@ export const DictionaryResult = () => {
         }}
       >
         <SearchInput
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
+          searchWord={searchWord}
+          setSearchWord={setSearchWord}
           onSubmit={handleSearch}
         />
       </div>

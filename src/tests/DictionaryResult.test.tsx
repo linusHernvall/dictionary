@@ -51,3 +51,39 @@ describe('phonetics audio', () => {
     });
   });
 });
+
+describe('render result', () => {
+  test.only('check for search result of searched word', async () => {
+    render(<DictionaryResult />);
+
+    const searchWord = screen.getByPlaceholderText('Search for a word');
+    const searchButton = screen.getByText('Search');
+
+    await userEvent.type(searchWord, 'father');
+    await userEvent.click(searchButton);
+
+    const phoneticText = await screen.findAllByText(/Phonetic Text:/);
+    expect(phoneticText).toHaveLength(2);
+
+    const partOfSpeech = await screen.findAllByText(/Part of Speech:/);
+    expect(partOfSpeech).toHaveLength(2);
+
+    const definition = await screen.findAllByText(/Definition:/);
+    expect(definition).toHaveLength(10);
+
+    const example = await screen.findAllByText(/Example:/);
+    expect(example).toHaveLength(3);
+
+    const synonyms = await screen.findByText(/Synonyms:/);
+    expect(synonyms).toBeInTheDocument();
+
+    const antonyms = await screen.findByText(/Antonyms:/);
+    expect(antonyms).toBeInTheDocument();
+
+    const license = await screen.findByText(/License:/);
+    expect(license).toBeInTheDocument();
+
+    const sourceUrl = await screen.findByText(/Source URLs:/);
+    expect(sourceUrl).toBeInTheDocument();
+  });
+});
