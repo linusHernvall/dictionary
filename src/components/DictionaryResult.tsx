@@ -13,6 +13,7 @@ interface PhoneticInfo {
 
 interface Definition {
   definition: string;
+  example: string;
 }
 
 interface Meaning {
@@ -60,6 +61,7 @@ export const DictionaryResult = () => {
           partOfSpeech: meaning.partOfSpeech,
           definitions: meaning.definitions.slice(0, 5).map((def) => ({
             definition: def.definition,
+            example: def.example,
           })),
           synonyms: meaning.synonyms,
           antonyms: meaning.antonyms,
@@ -145,6 +147,12 @@ export const DictionaryResult = () => {
                       <p>
                         <b>Definition: </b>
                         {def.definition}
+                      </p>
+                    )}
+                    {def.example && (
+                      <p>
+                        <b>Example: </b>
+                        {def.example}
                       </p>
                     )}
                   </div>
