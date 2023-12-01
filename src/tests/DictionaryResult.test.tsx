@@ -8,10 +8,10 @@ describe('Loading- and error message', () => {
     render(<DictionaryResult />);
 
     const searchWord = screen.getByPlaceholderText('Search for a word');
-    const searchButton = screen.getByText('Search');
+    const searchButton = await screen.findByText('Search');
 
     await userEvent.type(searchWord, 'word');
-    await userEvent.click(searchButton);
+    userEvent.click(searchButton);
 
     await waitFor(() => {
       const loadingMessage = screen.queryByText('Loading...');
@@ -19,19 +19,31 @@ describe('Loading- and error message', () => {
     });
   });
 
-  test('show an error message when searching with a blank input', async () => {
+  test('show an error message when searching with a blank input using the enter-key', async () => {
     render(<DictionaryResult />);
 
-    const searchButton = screen.getByText('Search');
+    const searchBar = screen.getByPlaceholderText('Search for a word');
+    await userEvent.type(searchBar, '{enter}');
 
-    await userEvent.click(searchButton);
+    const errorMessage = await screen.findByText(
+      'Word not found in the dictionary'
+    );
+    expect(errorMessage).toBeInTheDocument();
+  });
 
-    await waitFor(() => {
-      const errorMessage = screen.queryByText(
-        'Word not found in the dictionary'
-      );
-      expect(errorMessage).toBeInTheDocument();
-    });
+  test('word not found', async () => {
+    render(<DictionaryResult />);
+
+    const searchWord = await screen.getByPlaceholderText('Search for a word');
+    const searchButton = await screen.findByText('Search');
+
+    userEvent.type(searchWord, 'hejsan');
+    userEvent.click(searchButton);
+
+    const wordNotFound = await screen.findByText(
+      'Word not found in the dictionary'
+    );
+    expect(wordNotFound).toBeInTheDocument();
   });
 });
 
@@ -40,20 +52,24 @@ describe('phonetics audio', () => {
     render(<DictionaryResult />);
 
     const searchWord = screen.getByPlaceholderText('Search for a word');
-    const searchButton = screen.getByText('Search');
+    const searchButton = await screen.findByText('Search');
 
     await userEvent.type(searchWord, 'chef');
     await userEvent.click(searchButton);
 
     await waitFor(() => {
-      const audioPlayer = document.querySelector('audio');
+      const audioPlayer = screen.getByRole('audio');
       expect(audioPlayer).toBeInTheDocument();
+      expect(audioPlayer).toHaveAttribute(
+        'src',
+        'https://api.dictionaryapi.dev/media/pronunciations/en/chef-au.mp3'
+      );
     });
   });
 });
 
 describe('render result', () => {
-  test.only('check for search result of searched word', async () => {
+  test('check for search result of searched word', async () => {
     render(<DictionaryResult />);
 
     const searchWord = screen.getByPlaceholderText('Search for a word');

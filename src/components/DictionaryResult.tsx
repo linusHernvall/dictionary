@@ -54,10 +54,10 @@ export const DictionaryResult = () => {
       }
       const data: DictionaryResult[] = await response.json();
 
-      const processedData = data.map((entry) => ({
-        word: entry.word,
-        phonetics: entry.phonetics.filter((phonetic) => phonetic.audio !== ''),
-        meanings: entry.meanings.map((meaning) => ({
+      const processedData = data.map((result) => ({
+        word: result.word,
+        phonetics: result.phonetics.filter((phonetic) => phonetic.audio !== ''),
+        meanings: result.meanings.map((meaning) => ({
           partOfSpeech: meaning.partOfSpeech,
           definitions: meaning.definitions.slice(0, 5).map((def) => ({
             definition: def.definition,
@@ -66,8 +66,8 @@ export const DictionaryResult = () => {
           synonyms: meaning.synonyms,
           antonyms: meaning.antonyms,
         })),
-        license: entry.license,
-        sourceUrls: entry.sourceUrls,
+        license: result.license,
+        sourceUrls: result.sourceUrls,
       }));
 
       setSearchResults(processedData);
@@ -124,20 +124,24 @@ export const DictionaryResult = () => {
           <div key={index}>
             <h1>{result.word}</h1>
 
-            {/*  Phonetics */}
+            {/* Phonetics */}
             {result.phonetics.map((phonetic, phoneticIndex) => (
               <div key={phoneticIndex}>
                 <h4>Phonetic Text: {phonetic.text}</h4>
                 {phonetic.audio && (
                   <audio controls>
-                    <source src={phonetic.audio} type="audio/mpeg" />
+                    <source
+                      role="audio"
+                      src={phonetic.audio}
+                      type="audio/mpeg"
+                    />
                     Your browser does not support the audio element.
                   </audio>
                 )}
               </div>
             ))}
 
-            {/* Meanings  */}
+            {/* Meanings */}
             {result.meanings.map((meaning, meaningIndex) => (
               <div key={meaningIndex}>
                 <h4>Part of Speech: {meaning.partOfSpeech}</h4>

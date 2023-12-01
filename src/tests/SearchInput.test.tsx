@@ -32,7 +32,7 @@ describe('SearchInput Component', () => {
     expect(setSearchWord).toHaveBeenCalledTimes(5);
   });
 
-  test('submits the form with the search term', async () => {
+  test('submits the form with the searched word', async () => {
     const searchWord = 'hello';
     const onSubmit = vi.fn();
     render(
