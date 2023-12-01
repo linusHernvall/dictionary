@@ -35,7 +35,7 @@ describe('Loading- and error message', () => {
   });
 });
 
-describe('Phonetics audio', () => {
+describe('phonetics audio', () => {
   test('the audio player is rendered', async () => {
     render(<DictionaryResult />);
 
