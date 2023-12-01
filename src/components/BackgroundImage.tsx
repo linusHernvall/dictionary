@@ -1,4 +1,4 @@
-import library from '../assets/images/blue-hall.png';
+import library from '../assets/images/library.png';
 
 export const BackgroundImage = () => {
   return (
